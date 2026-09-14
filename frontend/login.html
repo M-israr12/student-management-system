@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sign in · Ledger — Student Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="auth-body">
+
+  <div class="auth-shell">
+    <section class="auth-panel">
+      <div class="brand">
+        <span class="brand-mark">L</span>
+        <span class="brand-name">Ledger</span>
+      </div>
+      <h1>Welcome back</h1>
+      <p class="auth-sub">Sign in to manage your students, courses and records.</p>
+
+      <form id="loginForm" class="auth-form" novalidate>
+        <div class="field">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" autocomplete="username" placeholder="admin" required />
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" autocomplete="current-password" placeholder="••••••••" required />
+        </div>
+
+        <div id="loginError" class="form-message" hidden></div>
+
+        <button type="submit" class="btn btn-primary btn-block" id="loginBtn">Sign in</button>
+      </form>
+
+      <p class="auth-footnote">
+        Default seeded account — username <code>admin</code>, password <code>admin123</code>.
+        Change this after your first login.
+      </p>
+    </section>
+
+    <aside class="auth-visual" aria-hidden="true">
+      <div class="visual-content">
+        <p class="visual-eyebrow">Student Management System</p>
+        <h2>Every record,<br/>one clear ledger.</h2>
+        <p class="visual-copy">Add, search and track students across courses with a dashboard built for the front desk, not the server room.</p>
+        <div class="visual-stat">
+          <span class="visual-dot"></span>
+          <span>Add &amp; edit students</span>
+        </div>
+        <div class="visual-stat">
+          <span class="visual-dot"></span>
+          <span>Search across every field</span>
+        </div>
+        <div class="visual-stat">
+          <span class="visual-dot"></span>
+          <span>See enrollment at a glance</span>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ledger — Student Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="app-body">
+
+<div class="app-shell">
+
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <div class="brand">
+      <span class="brand-mark">L</span>
+      <span class="brand-name">Ledger</span>
+    </div>
+
+    <div class="nav-group">
+      <button class="nav-item active" data-view="dashboard">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none"><path d="M4 13h6V4H4v9Zm0 7h6v-5H4v5Zm10 0h6V11h-6v9Zm0-16v5h6V4h-6Z" fill="currentColor"/></svg>
+        Dashboard
+      </button>
+      <button class="nav-item" data-view="students">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none"><path d="M12 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm0 2c-4 0-8 2-8 5v1h16v-1c0-3-4-5-8-5Z" fill="currentColor"/></svg>
+        Students
+      </button>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="user-chip">
+        <span class="user-avatar" id="userAvatar">A</span>
+        <div class="user-meta">
+          <span class="user-name" id="userName">Administrator</span>
+          <span class="user-role" id="userRole">admin</span>
+        </div>
+      </div>
+      <button class="btn-logout" id="logoutBtn">Log out</button>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <main class="main">
+
+    <!-- ===== Dashboard view ===== -->
+    <section id="view-dashboard" class="view">
+      <header class="view-header">
+        <div>
+          <h1>Dashboard</h1>
+          <p class="view-sub">A snapshot of where enrollment stands today.</p>
+        </div>
+        <button class="btn btn-primary" data-view-link="students" data-action="add">+ Add student</button>
+      </header>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <span class="stat-label">Total students</span>
+          <span class="stat-value" id="statTotal">—</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Active</span>
+          <span class="stat-value" id="statActive">—</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Inactive</span>
+          <span class="stat-value" id="statInactive">—</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Added this month</span>
+          <span class="stat-value" id="statMonth">—</span>
+        </div>
+      </div>
+
+      <div class="dash-grid">
+        <div class="panel">
+          <h2>Students by course</h2>
+          <div id="courseBreakdown" class="course-list"></div>
+        </div>
+        <div class="panel">
+          <h2>Recently added</h2>
+          <div id="recentList" class="recent-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Students view ===== -->
+    <section id="view-students" class="view" hidden>
+      <header class="view-header">
+        <div>
+          <h1>Students</h1>
+          <p class="view-sub">Add, edit, search and remove student records.</p>
+        </div>
+        <button class="btn btn-primary" id="openAddModal">+ Add student</button>
+      </header>
+
+      <div class="toolbar">
+        <div class="search-field">
+          <svg viewBox="0 0 24 24" fill="none" class="search-icon"><path d="M21 21l-4.3-4.3m1.8-5.2a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input type="text" id="searchInput" placeholder="Search by name, email, roll number or course" />
+        </div>
+        <select id="statusFilter">
+          <option value="">All statuses</option>
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+        </select>
+      </div>
+
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>Roll No.</th>
+              <th>Course</th>
+              <th>Contact</th>
+              <th>Status</th>
+              <th>Enrolled</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="studentsTableBody">
+            <!-- rows injected by JS -->
+          </tbody>
+        </table>
+        <div id="emptyState" class="empty-state" hidden>
+          <p>No students match this search yet.</p>
+        </div>
+      </div>
+
+      <div class="pagination" id="pagination"></div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ===== Add / Edit modal ===== -->
+<div class="modal-backdrop" id="modalBackdrop" hidden>
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="modalTitle">Add student</h2>
+      <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+    </div>
+    <form id="studentForm" class="modal-form">
+      <input type="hidden" id="studentId" />
+      <div class="form-grid">
+        <div class="field">
+          <label for="full_name">Full name *</label>
+          <input type="text" id="full_name" required />
+        </div>
+        <div class="field">
+          <label for="email">Email *</label>
+          <input type="email" id="email" required />
+        </div>
+        <div class="field">
+          <label for="phone">Phone</label>
+          <input type="text" id="phone" />
+        </div>
+        <div class="field">
+          <label for="roll_number">Roll number</label>
+          <input type="text" id="roll_number" />
+        </div>
+        <div class="field">
+          <label for="course">Course *</label>
+          <input type="text" id="course" required placeholder="e.g. B.Sc Computer Science" />
+        </div>
+        <div class="field">
+          <label for="grade">Grade / percentage</label>
+          <input type="text" id="grade" placeholder="e.g. A or 88%" />
+        </div>
+        <div class="field">
+          <label for="enrollment_date">Enrollment date</label>
+          <input type="date" id="enrollment_date" />
+        </div>
+        <div class="field">
+          <label for="status">Status</label>
+          <select id="status">
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+        <div class="field field-wide">
+          <label for="address">Address</label>
+          <textarea id="address" rows="2"></textarea>
+        </div>
+      </div>
+
+      <div id="formError" class="form-message" hidden></div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" id="cancelBtn">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="saveBtn">Save student</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===== Delete confirm modal ===== -->
+<div class="modal-backdrop" id="deleteBackdrop" hidden>
+  <div class="modal modal-small">
+    <div class="modal-header">
+      <h2>Remove student?</h2>
+      <button class="modal-close" id="deleteModalClose" aria-label="Close">&times;</button>
+    </div>
+    <p class="modal-copy">This removes <strong id="deleteStudentName">this student</strong> from your records. This can't be undone.</p>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-ghost" id="deleteCancelBtn">Cancel</button>
+      <button type="button" class="btn btn-danger" id="deleteConfirmBtn">Remove</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/students.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
