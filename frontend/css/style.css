@@ -325,13 +325,13 @@ code {
 }
 .sidebar-footer .btn-ghost {
   width: 100%;
-  justify-content: center;
-  color: var(--ink-soft);
+  padding: 9px 12px;
+  color: #C7C9E4;
   background: transparent;
-  border: 1px solid var(--line);
-  margin: 10px 0;
+  border: 1px solid rgba(255,255,255,0.16);
+  margin: 0;
 }
 .sidebar-footer .btn-ghost:hover {
-  background: var(--surface);
-  color: var(--ink);
+  background: rgba(255,255,255,0.08);
+  color: #fff;
 }
