@@ -75,7 +75,7 @@ app.use(express.static(frontendPath));
 app.get(/^(?!\/api).*/, (req, res) => {
   res.sendFile(path.join(frontendPath, "login.html"));
 });
-module.exports = {};
+exports = {};
 // ---------- 404 + error handling ----------
 app.use("/api", (req, res) => {
   res.status(404).json({ success: false, message: "API route not found." });
