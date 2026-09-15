@@ -75,3 +75,76 @@ if (logoutBtn) {
       .toUpperCase();
   }
 }
+// ---- Change Password ----
+const changePasswordBtn = document.getElementById("changePasswordBtn");
+const passwordBackdrop = document.getElementById("passwordBackdrop");
+const passwordModalClose = document.getElementById("passwordModalClose");
+const passwordCancelBtn = document.getElementById("passwordCancelBtn");
+const changePasswordForm = document.getElementById("changePasswordForm");
+const passwordError = document.getElementById("passwordError");
+
+if (changePasswordBtn && passwordBackdrop) {
+  changePasswordBtn.addEventListener("click", () => {
+    passwordBackdrop.hidden = false;
+  });
+}
+
+function closePasswordModal() {
+  if (passwordBackdrop) {
+    passwordBackdrop.hidden = true;
+  }
+
+  if (changePasswordForm) {
+    changePasswordForm.reset();
+  }
+
+  if (passwordError) {
+    passwordError.hidden = true;
+    passwordError.textContent = "";
+  }
+}
+
+if (passwordModalClose) {
+  passwordModalClose.addEventListener("click", closePasswordModal);
+}
+
+if (passwordCancelBtn) {
+  passwordCancelBtn.addEventListener("click", closePasswordModal);
+}
+
+if (changePasswordForm) {
+  changePasswordForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    passwordError.hidden = true;
+
+    const currentPassword = document.getElementById("currentPassword").value;
+    const newPassword = document.getElementById("newPassword").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+
+    if (newPassword !== confirmPassword) {
+      passwordError.textContent = "New passwords do not match.";
+      passwordError.hidden = false;
+      return;
+    }
+
+    if (newPassword.length < 6) {
+      passwordError.textContent = "New password must be at least 6 characters long.";
+      passwordError.hidden = false;
+      return;
+    }
+
+    try {
+      const res = await Api.post("/auth/change-password", {
+        currentPassword,
+        newPassword
+      });
+
+      alert(res.message);
+      closePasswordModal();
+    } catch (err) {
+      passwordError.textContent = err.message;
+      passwordError.hidden = false;
+    }
+  });
+}

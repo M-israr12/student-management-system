@@ -73,5 +73,60 @@ function me(req, res) {
   }
   res.json({ success: true, user });
 }
+// POST /api/auth/change-password
+function changePassword(req, res) {
+  const { currentPassword, newPassword } = req.body;
 
-module.exports = { login, register, me };
+  if (!currentPassword || !newPassword) {
+    return res.status(400).json({
+      success: false,
+      message: "Current password and new password are required."
+    });
+  }
+
+  if (newPassword.length < 6) {
+    return res.status(400).json({
+      success: false,
+      message: "New password must be at least 6 characters long."
+    });
+  }
+
+  const user = db
+    .prepare("SELECT id, password_hash FROM users WHERE id = ?")
+    .get(req.user.id);
+
+  if (!user) {
+    return res.status(404).json({
+      success: false,
+      message: "User not found."
+    });
+  }
+
+  const isMatch = bcrypt.compareSync(currentPassword, user.password_hash);
+
+  if (!isMatch) {
+    return res.status(401).json({
+      success: false,
+      message: "Current password is incorrect."
+    });
+  }
+
+  if (currentPassword === newPassword) {
+    return res.status(400).json({
+      success: false,
+      message: "New password must be different from current password."
+    });
+  }
+
+  const newHash = bcrypt.hashSync(newPassword, 10);
+
+  db.prepare("UPDATE users SET password_hash = ? WHERE id = ?")
+    .run(newHash, req.user.id);
+
+  res.json({
+    success: true,
+    message: "Password changed successfully."
+  });
+}
+module.exports = { login, register, me, changePassword };
+
