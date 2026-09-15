@@ -75,7 +75,7 @@ app.use(express.static(frontendPath));
 app.get(/^(?!\/api).*/, (req, res) => {
   res.sendFile(path.join(frontendPath, "login.html"));
 });
-
+module.exports = {};
 // ---------- 404 + error handling ----------
 app.use("/api", (req, res) => {
   res.status(404).json({ success: false, message: "API route not found." });
@@ -94,7 +94,6 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ success: false, message: "Internal server error." });
 });
-
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`\n🚀 Server running at http://localhost:${PORT}`);
   console.log(`   Frontend also served from the same port.\n`);
