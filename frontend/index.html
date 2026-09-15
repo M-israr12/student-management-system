@@ -30,17 +30,17 @@
       </button>
     </div>
 
-    <div class="sidebar-footer">
-      <div class="user-chip">
-        <span class="user-avatar" id="userAvatar">A</span>
-        <div class="user-meta">
-          <span class="user-name" id="userName">Administrator</span>
-          <span class="user-role" id="userRole">admin</span>
-        </div>
-      </div>
-      <button class="btn-logout" id="logoutBtn">Log out</button>
+   <div class="sidebar-footer">
+    <div class="user-chip">
+    <span class="user-avatar" id="userAvatar">A</span>
+    <div class="user-meta">
+      <span class="user-name" id="userName">Administrator</span>
+      <span class="user-role" id="userRole">admin</span>
     </div>
-  </nav>
+   </div>
+   <button class="btn btn-ghost" id="changePasswordBtn">Change Password</button>
+   <button class="btn-logout" id="logoutBtn">Log out</button>
+  </div>
 
   <!-- Main -->
   <main class="main">
@@ -196,7 +196,6 @@
     </form>
   </div>
 </div>
-
 <!-- ===== Delete confirm modal ===== -->
 <div class="modal-backdrop" id="deleteBackdrop" hidden>
   <div class="modal modal-small">
@@ -209,6 +208,34 @@
       <button type="button" class="btn btn-ghost" id="deleteCancelBtn">Cancel</button>
       <button type="button" class="btn btn-danger" id="deleteConfirmBtn">Remove</button>
     </div>
+  </div>
+</div>
+<!-- ===== Change Password modal ===== -->
+<div class="modal-backdrop" id="passwordBackdrop" hidden>
+  <div class="modal modal-small">
+    <div class="modal-header">
+      <h2>Change Password</h2>
+      <button class="modal-close" id="passwordModalClose" aria-label="Close">&times;</button>
+    </div>
+    <form id="changePasswordForm" class="modal-form">
+      <div class="field">
+        <label for="currentPassword">Current password</label>
+        <input type="password" id="currentPassword" required />
+      </div>
+      <div class="field">
+        <label for="newPassword">New password</label>
+        <input type="password" id="newPassword" minlength="6" required />
+      </div>
+      <div class="field">
+        <label for="confirmPassword">Confirm new password</label>
+        <input type="password" id="confirmPassword" minlength="6" required />
+      </div>
+      <div id="passwordError" class="form-message" hidden></div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" id="passwordCancelBtn">Cancel</button>
+        <button type="submit" class="btn btn-primary">Change Password</button>
+      </div>
+    </form>
   </div>
 </div>
 
