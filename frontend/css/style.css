@@ -323,3 +323,15 @@ code {
   .data-table td { padding: 4px 0; border: none; }
   .row-actions { justify-content: flex-start; margin-top: 8px; }
 }
+.sidebar-footer .btn-ghost {
+  width: 100%;
+  justify-content: center;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px solid var(--line);
+  margin: 10px 0;
+}
+.sidebar-footer .btn-ghost:hover {
+  background: var(--surface);
+  color: var(--ink);
+}
