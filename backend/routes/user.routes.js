@@ -5,7 +5,7 @@ const {
   getTeachers,
   createTeacher,
   deleteTeacher
-} = require("../user.controller");
+} = require("../controllers/user.controller");
 
 const {
   verifyToken,
