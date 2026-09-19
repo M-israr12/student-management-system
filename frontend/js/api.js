@@ -2,7 +2,7 @@
  * Centralized API client.
  * Change API_BASE_URL only if your backend runs on a different host/port.
  */
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = "/api";
 
 const Api = {
   token() {
