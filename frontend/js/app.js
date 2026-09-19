@@ -11,7 +11,7 @@ const Toast = {
 };
 
 const Router = {
-  views: ["dashboard", "students"],
+  views: ["dashboard", "students","teachers"],
 
   switchTo(view) {
     Router.views.forEach((v) => {
@@ -23,6 +23,7 @@ const Router = {
 
     if (view === "dashboard") Dashboard.load();
     if (view === "students") Students.load();
+    if (view === "teachers") Teachers.load();
   },
 
   init() {
@@ -47,5 +48,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   Router.init();
   Students.init();
+  Teachers.init();
   Router.switchTo("dashboard");
 });

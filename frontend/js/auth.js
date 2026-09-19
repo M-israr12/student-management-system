@@ -36,6 +36,11 @@ const loginForm = document.getElementById("loginForm");
 if (loginForm) {
   const errorBox = document.getElementById("loginError");
   const loginBtn = document.getElementById("loginBtn");
+  const teachersNav = document.getElementById("teachersNav");
+
+if (teachersNav && user.role !== "admin") {
+  teachersNav.style.display = "none";
+}
 
   loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
